@@ -8,7 +8,9 @@ type classMap = {
   id:number,
   className:string,
   waitTime:number,
-  prevTime:number
+  prevTime:number,
+  renewTime:string,
+  TimeVisible:boolean
 }
 type Props = {
   classMap: classMap[];
@@ -16,10 +18,13 @@ type Props = {
 type CircleData = {
     className:string,
     waitTime:number,
+    renewTime:string,
+    TimeVisible:boolean
 }
 type SelectClass ={
     id:number,
     classNames:string,//sortのために集める
+    
 }
 type Class_location ={
   floors:string,
@@ -59,10 +64,14 @@ const PageInner = ({classMap}:Props) => {
             const tar = classMap.find((c)=> c.id == item.id );
             return {
                 waitTime:tar?.waitTime || 0,
-                className:item.classNames
+                className:item.classNames,
+                renewTime:tar?.renewTime ?? "",
+                TimeVisible:tar?.TimeVisible ?? false
                 }
         })
-        setShowData(newData);
+
+        const filteredData = newData.filter((item)=>item.TimeVisible == true)
+        setShowData(filteredData);
     },[selectClasses,classMap])
     useEffect(()=>{
       if(!class_location) return ;
@@ -198,7 +207,7 @@ const PageInner = ({classMap}:Props) => {
                     >
                       {showData?.map((value, i) => (
                         <div key={i} className="p-2 border rounded-2xl bg-white border-slate-200 drop-shadow-md">
-                          <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1">
+                          <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
                             <ClockArc minutes={value.waitTime} />
                             <div className="text-center">{value.className}</div>
                           </div>
@@ -214,6 +223,7 @@ const PageInner = ({classMap}:Props) => {
                                     <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1">
                                       <ClockArc minutes={value.waitTime} />
                                       <div className="text-center">{value.className}</div>
+                                      <div className="text-center">{value.renewTime}</div>
                                     </div>
                                   </div>
                                 ))}

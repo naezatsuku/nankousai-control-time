@@ -1,15 +1,15 @@
 "use client"
 import { supabase } from '@/lib/supabaseClient'
-import { randomUUID, UUID } from 'crypto'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import PageInner from './PageInner'
-import ClockArc from './ClockArc'
 
 type classMap ={
   id:number,
   className:string,
   waitTime:number,
-  prevTime:number
+  prevTime:number,
+  renewTime:string;
+  TimeVisible:boolean;
 }
 const Page = () => {
   const [classMap,setClassMap] = useState<classMap[]>();
@@ -30,6 +30,8 @@ const Page = () => {
           className:tmp.className as string,
           waitTime:tmp.waitTime as number ,
           prevTime:tmp.prevTime as number,
+          renewTime:tmp.renewTime as string,
+          TimeVisible:tmp.TimeVisible as boolean
         }
         setClassMap((prev)=>{
           if(!prev) return prev
@@ -39,11 +41,10 @@ const Page = () => {
       .subscribe()
     
     const fetch = async ()=>{
-      const {data,error} = await supabase.from("contents").select("id,className,waitTime,prevTime");
+      const {data,error} = await supabase.from("contents").select("id,className,waitTime,prevTime,renewTime,TimeVisible");
       if(!data?.[0] || error){
         return alert("error");
       }
-
       const tmp = data as classMap[];
       setClassMap(tmp);
     }

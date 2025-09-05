@@ -21,8 +21,11 @@ type Event ={
     frontImg:string,
     types:string[],
     waitTime:number,
+    renewTime:string,
+    TimeVisible:boolean
     tagline:string,//キャッチコピー
     content:string,
+    
 }
 type Props ={
     data:Event,
@@ -162,14 +165,23 @@ const Card = ({data,life}:Props) => {
                   <div className={`xl:text-7xl text-5xl mt-2  font-bold text-gray-800 ${KaiseiDecol.className}`}>{data.title}</div>
 
                   <div className='flex w-full 2xl:mt-16 xl:mt-12 mt-10'>
-                    <div className="flex justify-center w-[40%]">
+                    {data.TimeVisible ? 
+                      <div className="flex justify-center w-[40%]">
                         <div className='w-full aspect-square hidden md:block'>
                           <ClockArc minutes={data.waitTime} />
+                          <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
                         <div className='w-full aspect-square block md:hidden'>
                           <MiniClockArc minutes={data.waitTime} />
+                          <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
-                    </div>
+                    </div>:
+                    <div className="flex justify-center w-[40%] aspect-square ">
+                      <div className="flex justify-center flex-col w-auto h-auto p-6 bg-slate-50  border-slate-100 shadow-xl rounded-xl">
+                          <div className="text-center mt-2 text-black text-lg ">この団体は待ち時間表示をしません</div>
+                      </div>
+                    </div> 
+                    }
                     <div className="flex flex-col gap-[15%] 2xl:gap-[18%] text-gray-700 2xl:ml-10 xl:ml-8 ml-6 justify-center">
                       <div className="flex items-center gap-1">
                         <MdOutlinePlace className="text-blue-500 text-3xl xl:text-4xl 2xl:text-5xl relative top-1" />

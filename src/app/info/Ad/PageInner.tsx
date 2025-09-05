@@ -14,7 +14,8 @@ type RawContent ={
     type:string[],
     genre:string[],
     waitTime:number,
-    
+    TimeVisible:boolean,
+    renewTime:string
 }
 type Content = {
     className:string,
@@ -48,6 +49,8 @@ type Event ={
     waitTime:number,
     tagline:string,//キャッチコピー
     content:string,
+    TimeVisible:boolean,
+    renewTime:string
 }
 type Floor ={
     floors:string,
@@ -58,7 +61,7 @@ const PageInner = () => {
     const FloorRef = useRef<Floor[]>([]);
     const [index,setIndex] = useState(0)
     const fetchData  = async ()=>{
-    const {data:rawevents} = await supabase.from('contents').select(`className,comment,place,type,genre,waitTime,title,imageURL,imageVersion,imageBackURL,time` );
+    const {data:rawevents} = await supabase.from('contents').select(`className,comment,place,type,genre,waitTime,title,imageURL,imageVersion,imageBackURL,time,TimeVisible,renewTime` );
     const {data:intro} = await supabase.from("introduction").select("className,title,content");
     const intros = intro as RawIntro[]
     const events = rawevents as RawContent[]
@@ -108,7 +111,9 @@ const PageInner = () => {
             types:newTypes,
             waitTime:value.waitTime,
             tagline:tagline,
-            content:content
+            content:content,
+            TimeVisible:value.TimeVisible,
+            renewTime:value.renewTime
         }
     })
     const sorted = CLASSDATA.sort((a,b)=> a.className.localeCompare(b.className))
@@ -181,13 +186,15 @@ const PageInner = () => {
                   frontImg: frontImg,
                   types: newTypes,
                   waitTime: tmp.waitTime,
+                  TimeVisible:tmp.TimeVisible,
+                  renewTime:tmp.renewTime ?? "",
                   tagline: EventRef.current[index].tagline,
                   content: EventRef.current[index].content,
                 }
           
                 console.log(newData);
                 EventRef.current[index] = newData
-          
+                
             }
           }
         )
@@ -218,6 +225,8 @@ const PageInner = () => {
                         frontImg: EventRef.current[index].frontImg,
                         types: EventRef.current[index].types,
                         waitTime: EventRef.current[index].waitTime,
+                        TimeVisible:EventRef.current[index].TimeVisible,
+                        renewTime:EventRef.current[index].renewTime,
                         tagline: tagline,
                         content:content,
                     }
@@ -238,9 +247,6 @@ const PageInner = () => {
 
   return (
     <>
-        <div>
-
-        </div>
         <ShowCards eventRef = {EventRef} floorRef={FloorRef} index={index}/>
     </>
         

@@ -87,7 +87,7 @@ const Page = () => {
     const pre = Number(timeMap.waitTime);
     const now = Number(newTime)
     const time = new Date(); 
-    const month = time .getMonth()
+    const month = time.getMonth() + 1
     const date = time.getDate()
     const day = `${month}月${date}日`
     const hours = time.getHours();

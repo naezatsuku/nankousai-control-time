@@ -15,6 +15,8 @@ type Event = {
   waitTime: number;
   tagline: string;
   content: string;
+  renewTime:string;
+  TimeVisible:boolean;
 };
 
 type Floor = {
