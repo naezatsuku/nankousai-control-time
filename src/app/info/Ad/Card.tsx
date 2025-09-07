@@ -1,16 +1,13 @@
 "use client"
-import { skeleton, toBase64 } from '@/components/global/skeleton'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoTimeOutline } from 'react-icons/io5'
 import { MdOutlinePlace } from 'react-icons/md'
-import ScrollContainer from 'react-indiana-drag-scroll'
 import ClockArc from '../Circle/ClockArc'
 import Image from 'next/image';
 import { KaiseiDecol } from '@/fonts'
 import MiniClockArc from '../Circle/MiniClockArc'
-import { div } from 'framer-motion/client'
+import styles from "./Ad.module.css"
+import QRGenerator from '../components/QRgenerateer'
 type Event ={
     className:string,
     title:string,
@@ -31,7 +28,6 @@ type Props ={
     data:Event,
     life:number
 }
-const kaiseiDecol = KaiseiDecol
 const Card = ({data,life}:Props) => {
         const Tags = [
         {id:"tenji", name:"展示", color:"from-blue-500 via-indigo-500 to-purple-500"},
@@ -126,10 +122,9 @@ const Card = ({data,life}:Props) => {
     if(data.types.length % 3 != 0) {
       adjust_between = 3 - data.types.length % 3
     } 
-
   return (
-    <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/9] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
-        <svg viewBox="0 0 160 90" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
+    <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
+        <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
             <defs>
               <linearGradient id="rectStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="rgba(61, 200, 194, 1)" />
@@ -144,14 +139,14 @@ const Card = ({data,life}:Props) => {
               x="0.5"
               y="0.5"
               width="159"
-              height="89"
+              height="99"
               rx="5"
               ry="5"
               stroke="url(#rectStrokeGradient)"
-              strokeWidth="2"
+              strokeWidth="3"
               fill="none"
-              strokeDasharray="496"
-              strokeDashoffset="496"
+              strokeDasharray="516"
+              strokeDashoffset="516"
             />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center z-10">
@@ -162,7 +157,19 @@ const Card = ({data,life}:Props) => {
             <div className="flex w-full h-full 2xl:p-10 xl:p-8 p-6  ">
               <div className="basis-[60%] bg-slate-100 2xl:p-10 xl:p-8 p-6 rounded-l-xl  space-y-4">
                   <div className={`text-3xl xl:text-4xl  2xl:text-5xl text-gray-500 tracking-wide ${setTextColor(data.types)} ${KaiseiDecol.className}` } >{data.className}</div>
-                  <div className={`xl:text-7xl text-5xl mt-2  font-bold text-gray-800 ${KaiseiDecol.className}`}>{data.title}</div>
+                  <div className={`flex max-w-3xs lg:max-w-[450px] xl:max-w-[500px] overflow-hidden xl:text-7xl text-5xl mt-2  font-bold text-gray-800 ${KaiseiDecol.className}`}>
+                    <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap     ${data.title.length > 12 && styles["text_slide-slow"]}  
+                     `}>{data.title}</p>
+                     {data.title.length > 12 && 
+                     <>
+                     <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
+                     `}>{data.title}</p>
+                     <p className={`whitespace-nowrap    relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
+                     `}>{data.title}</p>
+                     </>
+                     
+                     }
+                  </div>
 
                   <div className='flex w-full 2xl:mt-16 xl:mt-12 mt-10'>
                     {data.TimeVisible ? 
@@ -209,10 +216,20 @@ const Card = ({data,life}:Props) => {
                           </div>
                       ))}
                   </div> */}
-                  <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8"> 
+                  <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8 "> 
                       <div className={`2xl:text-xl xl:text-lg opacity-60 text-gray-700 ` }>{data.tagline}</div>
-                      <div className="lg:leading-[150%] 2xl:mt-1 2xl:text-3xl xl:text-2xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify">
-                          <p className="whitespace-pre-line"> &ensp;{data.content}</p>
+                      <div className="flex max-w-xl lg:max-w-[400px] xl:max-w-[500px] overflow-hidden  2xl:mt-1 2xl:text-4xl xl:text-4xl lg:text-3xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify ">
+                            <p className={`whitespace-nowrap text-nowrap ${data.content.length > 12 && styles.text_slide}  
+                                      `}>{data.content}</p>
+                                      {data.content.length > 12 && 
+                                      <>
+                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
+                                      `}>{data.content}</p>
+                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
+                                      `}>{data.content}</p>
+                                      </>
+                                      
+                                      }
                       </div>
                   </div>
               </div>
@@ -226,9 +243,9 @@ const Card = ({data,life}:Props) => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className='flex gap-2 2xl:gap-3 flex-wrap justify-between'>
+                <div className=' flex gap-2 2xl:gap-3 flex-wrap justify-between'>
                       {data.types.map((value,i)=>(
-                          <div key={i}className={` 2xl:py-3 xl:py-3 py-2 xl:px-2 px-1 2xl:min-w-40 xl:min-w-30 xl:w-[30%] w-[48%]  bg-gradient-to-br ${
+                          <div key={i}className={` 2xl:py-3 xl:py-3 py-2 xl:px-2 px-1 2xl:min-w-40 xl:min-w-32 xl:w-[28%] w-[48%]  bg-gradient-to-br ${
                                             Tags.find((item) => item.name === value)?.color ??
                                             "bg-gradient-to-r from-pink-500 to-pink-300"
                                           }  text-white  rounded-md flex items-center justify-center opacity-90 `}>
@@ -243,6 +260,10 @@ const Card = ({data,life}:Props) => {
             </div>
             }
         </div>
+      {/* QRコード */}
+      <div className='fixed -bottom-0 -right-20 z-50 opacity-80'>
+            <QRGenerator qr={`https://nankousai.vercel.app/event/introduction?name=${data.className}`}/>
+      </div>
     </div>
 
   )

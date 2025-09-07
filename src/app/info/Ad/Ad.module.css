@@ -1,0 +1,22 @@
+@keyframes text-slide {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.text_slide  {
+ animation: text-slide 3s infinite linear 0.1s both;
+ display: inline-block;
+    text-wrap: nowrap;
+    white-space: nowrap;
+}
+.text_slide-slow  {
+ animation: text-slide 6s infinite linear 0.1s both;
+ display: inline-block;
+    text-wrap: nowrap;
+    white-space: nowrap;
+}
