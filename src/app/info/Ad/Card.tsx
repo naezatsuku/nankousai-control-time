@@ -122,6 +122,60 @@ const Card = ({data,life}:Props) => {
     if(data.types.length % 3 != 0) {
       adjust_between = 3 - data.types.length % 3
     } 
+    const contentLength = data.content.length;
+
+  const slideSpeedClass =
+    contentLength > 90
+      ? styles.text_slide_slow_ad
+      : contentLength > 60
+      ? styles.text_slide_slow
+      : contentLength > 12
+      ? styles.text_slide
+      : ""
+  const baseClass = 'whitespace-nowrap text-nowrap';
+  function formatSlot(startDate: Date, endDate: Date): string {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  const month = pad(startDate.getMonth() + 1); // 月は0始まり
+  const day = pad(startDate.getDate());
+  const startHour = pad(startDate.getHours());
+  const startMinute = pad(startDate.getMinutes());
+  const endHour = pad(endDate.getHours());
+  const endMinute = pad(endDate.getMinutes());
+
+  return `${month}/${day} ${startHour}:${startMinute}~${endHour}:${endMinute}`;
+}
+  function getNearestUpcomingSlot(slots: string[]): string | null {
+    
+  const now = new Date();
+  try{
+    for (let i = 0; i < slots.length; i++) {
+    const slot = slots[i];
+    const [datePart, timePart] = slot.split(" ");
+    const [startTimeStr, endTimeStr] = timePart.split("~");
+
+    const [month, day] = datePart.split("/").map(Number);
+    const [startHour, startMinute] = startTimeStr.split(":").map(Number);
+    const [endHour, endMinute] = endTimeStr.split(":").map(Number);
+
+    const startDate = new Date(now.getFullYear(), month - 1, day, startHour, startMinute);
+    const endDate = new Date(now.getFullYear(), month - 1, day, endHour, endMinute);
+
+
+    if (now < endDate) {
+      console.log(slot)
+      return slot;
+    }
+  }
+  }catch(e){
+    console.log(e)
+    return null
+  }
+  
+  console.log("hello")
+  // すべて終了していた場合は null
+  return null;
+}
   return (
     <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
         <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
@@ -158,14 +212,14 @@ const Card = ({data,life}:Props) => {
               <div className="basis-[60%] bg-slate-100 2xl:p-10 xl:p-8 p-6 rounded-l-xl  space-y-4">
                   <div className={`text-3xl xl:text-4xl  2xl:text-5xl text-gray-500 tracking-wide ${setTextColor(data.types)} ${KaiseiDecol.className}` } >{data.className}</div>
                   <div className={`flex max-w-3xs lg:max-w-[450px] xl:max-w-[500px] overflow-hidden xl:text-7xl text-5xl mt-2  font-bold text-gray-800 ${KaiseiDecol.className}`}>
-                    <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap     ${data.title.length > 12 && styles["text_slide-slow"]}  
-                     `}>{data.title}</p>
-                     {data.title.length > 12 && 
+                    <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap     ${data.title.length > 7 && styles["text_slide_slow"]}  
+                     `}>{data.title}　</p>
+                     {data.title.length > 7 && 
                      <>
-                     <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
-                     `}>{data.title}</p>
-                     <p className={`whitespace-nowrap    relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
-                     `}>{data.title}</p>
+                     <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap   ${styles.text_slide_slow} 
+                     `}>{data.title} 　</p>
+                     <p className={`whitespace-nowrap    relative lg:bottom-1 text-nowrap   ${styles["text_slide_slow"]} 
+                     `}>{data.title}　</p>
                      </>
                      
                      }
@@ -196,13 +250,19 @@ const Card = ({data,life}:Props) => {
                       </div>
                       <div className="flex items-center gap-1">
                           <IoTimeOutline className="text-blue-500 text-3xl xl:text-4xl 2xl:text-5xl relative top-1" />
-                          <span className="text-3xl xl:text-4xl 2xl:text-5xl">
-                              {data.time.map((value,i)=>(
-                                  <span key={i} className='pl-1'>
-                                      {value}
-                                  </span>
-                              ))}
-                          </span>
+                          
+                              {data.time.length >=3 ? 
+                              <div className=" flex flex-nowrap text-3xl xl:text-4xl 2xl:text-5xl overflow-hidden max-w-xl lg:max-w-[400px] xl:max-w-[500px]">
+                                {getNearestUpcomingSlot(data.time)}
+                              </div>
+                              :<div>
+                                <div>
+                                  <div className="text-3xl xl:text-4xl 2xl:text-5xl">{data.time[0]}</div>
+                                  <div className="text-3xl xl:text-4xl 2xl:text-5xl">{data.time[1]}</div>
+                                </div>
+                              
+                              </div>
+                              }
                       </div>
                     </div>
                   </div>
@@ -219,17 +279,20 @@ const Card = ({data,life}:Props) => {
                   <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8 "> 
                       <div className={`2xl:text-xl xl:text-lg opacity-60 text-gray-700 ` }>{data.tagline}</div>
                       <div className="flex max-w-xl lg:max-w-[400px] xl:max-w-[500px] overflow-hidden  2xl:mt-1 2xl:text-4xl xl:text-4xl lg:text-3xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify ">
-                            <p className={`whitespace-nowrap text-nowrap ${data.content.length > 12 && styles.text_slide}  
-                                      `}>{data.content}</p>
-                                      {data.content.length > 12 && 
-                                      <>
-                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
-                                      `}>{data.content}</p>
-                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
-                                      `}>{data.content}</p>
-                                      </>
-                                      
-                                      }
+                      <p className={`${baseClass} ${slideSpeedClass}`}>
+                        {data.content}
+                      </p>
+                                        
+                      {contentLength > 12 && (
+                        <>
+                          <p className={`${baseClass} ${slideSpeedClass}`}>
+                            {data.content}
+                          </p>
+                          <p className={`${baseClass} ${slideSpeedClass}`}>
+                            {data.content}
+                          </p>
+                        </>
+                      )}
                       </div>
                   </div>
               </div>
