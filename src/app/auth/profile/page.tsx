@@ -16,7 +16,9 @@ type UserProfile = {
 
 export default function CompleteProfile() {
   const router = useRouter()
-
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [newPassword, setNewPassword] = useState('')
+  const [passwordMessage, setPasswordMessage] = useState('')
   const [name, setName] = useState<string>('')
   const [schoolType, setSchoolType] = useState<string>('')
   const [grade, setGrade] = useState<string>('')
@@ -227,6 +229,14 @@ export default function CompleteProfile() {
               </button>
             </div>
           </form>
+          <div className=" flex justify-center mb-4">
+            <button
+                onClick={() => setShowPasswordModal(true)}
+                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition hover:scale-105"
+              >
+              パスワードを設定する
+            </button>
+          </div>
         </div>
 
         <UserProfileCard
@@ -236,6 +246,57 @@ export default function CompleteProfile() {
           role={data?.role ?? ''}
         />
       </main>
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
+            <h2 className="text-xl font-bold mb-4">パスワード設定</h2>
+      
+            <input
+              type="password"
+              placeholder="新しいパスワード（6文字以上）"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full border px-3 py-2 rounded mb-4"
+            />
+
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowPasswordModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={async () => {
+                  if (!newPassword || newPassword.length < 6) {
+                    setPasswordMessage('6文字以上のパスワードを入力してください')
+                    return
+                  }
+                
+                  const { error } = await supabase.auth.updateUser({ password: newPassword })
+                  if (error) {
+                    setPasswordMessage('パスワードの設定に失敗しました')
+                  } else {
+                    setPasswordMessage('パスワードを設定しました！次回からログインできます')
+                    setNewPassword('')
+                    setTimeout(() => {
+                      setShowPasswordModal(false)
+                      setPasswordMessage('')
+                    }, 1500)
+                  }
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+              >
+                設定する
+              </button>
+            </div>
+              
+            {passwordMessage && (
+              <p className="mt-4 text-sm text-gray-700 text-center">{passwordMessage}</p>
+            )}
+          </div>
+        </div>
+      )}  
     </div>
   )
 }
