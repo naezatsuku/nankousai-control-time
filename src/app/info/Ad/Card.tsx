@@ -123,7 +123,7 @@ const Card = ({data,life}:Props) => {
       adjust_between = 3 - data.types.length % 3
     } 
   return (
-    <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
+    <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] 2xl:aspect-[16/9] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
         <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
             <defs>
               <linearGradient id="rectStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -156,19 +156,27 @@ const Card = ({data,life}:Props) => {
             
             <div className="flex w-full h-full 2xl:p-10 xl:p-8 p-6  ">
               <div className="basis-[60%] bg-slate-100 2xl:p-10 xl:p-8 p-6 rounded-l-xl  space-y-4">
-                  <div className={`text-3xl xl:text-4xl  2xl:text-5xl text-gray-500 tracking-wide ${setTextColor(data.types)} ${KaiseiDecol.className}` } >{data.className}</div>
-                  <div className={`flex max-w-3xs lg:max-w-[450px] xl:max-w-[500px] overflow-hidden xl:text-7xl text-5xl mt-2  font-bold text-gray-800 ${KaiseiDecol.className}`}>
-                    <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap     ${data.title.length > 12 && styles["text_slide-slow"]}  
-                     `}>{data.title}</p>
-                     {data.title.length > 12 && 
-                     <>
-                     <p className={`whitespace-nowrap   relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
-                     `}>{data.title}</p>
-                     <p className={`whitespace-nowrap    relative lg:bottom-1 text-nowrap   ${styles["text_slide-slow"]} 
-                     `}>{data.title}</p>
-                     </>
-                     
-                     }
+                  <div className={`text-3xl xl:text-4xl  2xl:text-5xl text-gray-500 tracking-wide pb-2 ${setTextColor(data.types)} ${KaiseiDecol.className}` } >{data.className}</div>
+                  <div className={`flex max-w-3xs lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[650px] overflow-hidden xl:text-7xl text-5xl mt-2  font-bold text-gray-800  ${KaiseiDecol.className}`}>
+                    <style> 
+                      {`@keyframes text-slide {
+                          from {
+                              transform: translateX(0%);
+                          }
+
+                          to {
+                              transform: translateX(-100%);
+                          }
+                      }`}
+                    </style>
+                    {data.title.length >= 10 ? 
+                      <>
+                        <p  style={{animation: `text-slide ${6 / 12 * data.title.length}s infinite linear 0.2s both`}} className={`whitespace-nowrap text-nowrap relative lg:bottom-1  ml-8 inline-block                                `}>{data.title}</p>
+                        <p  style={{animation: `text-slide ${6 / 12 * data.title.length}s infinite linear 0.2s both`}} className={`whitespace-nowrap text-nowrap  relative lg:bottom-1 inline-block ml-8  
+                        `}>{data.title}</p>
+                      </>
+                      :<p className={`whitespace-nowrap relative lg:bottom-1 text-nowrap inline-block `}>{data.title}</p>
+                    }
                   </div>
 
                   <div className='flex w-full 2xl:mt-16 xl:mt-12 mt-10'>
@@ -218,18 +226,27 @@ const Card = ({data,life}:Props) => {
                   </div> */}
                   <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8 "> 
                       <div className={`2xl:text-xl xl:text-lg opacity-60 text-gray-700 ` }>{data.tagline}</div>
-                      <div className="flex max-w-xl lg:max-w-[400px] xl:max-w-[500px] overflow-hidden  2xl:mt-1 2xl:text-4xl xl:text-4xl lg:text-3xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify ">
-                            <p className={`whitespace-nowrap text-nowrap ${data.content.length > 12 && styles.text_slide}  
-                                      `}>{data.content}</p>
-                                      {data.content.length > 12 && 
-                                      <>
-                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
-                                      `}>{data.content}</p>
-                                      <p className={`whitespace-nowrap text-nowrap  ${styles.text_slide} 
-                                      `}>{data.content}</p>
-                                      </>
-                                      
-                                      }
+                      <div className="flex max-w-xl lg:max-w-[400px] xl:max-w-[500px] 2xl:max-w-[600px] overflow-hidden  2xl:mt-1 2xl:text-4xl xl:text-4xl lg:text-3xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify ">
+                            <style> 
+                              {`@keyframes text-slide {
+                                  from {
+                                      transform: translateX(0%);
+                                  }
+
+                                  to {
+                                      transform: translateX(-100%);
+                                  }
+                              }`}
+                            </style>
+                            {data.content.length > 12 ? 
+                              <>
+                                <p  style={{animation: `text-slide ${4 / 12 * data.content.length}s infinite linear 0.1s both`}} className={`whitespace-nowrap text-nowrap inline-block                                `}>{data.content}</p>
+                                <p  style={{animation: `text-slide ${4 / 12 * data.content.length}s infinite linear 0.1s both`}} className={`whitespace-nowrap text-nowrap  inline-block 
+                                `}>{data.content}</p>
+                              </>
+                              :<p className={`whitespace-nowrap text-nowrap inline-block `}>{data.content}</p>
+                            }
+                            
                       </div>
                   </div>
               </div>
