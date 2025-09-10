@@ -14,8 +14,14 @@
     text-wrap: nowrap;
     white-space: nowrap;
 }
-.text_slide-slow  {
+.text_slide_slow  {
  animation: text-slide 6s infinite linear 0.1s both;
+ display: inline-block;
+    text-wrap: nowrap;
+    white-space: nowrap;
+}
+.text_slide_slow_ad  {
+ animation: text-slide 13s infinite linear 0.1s both;
  display: inline-block;
     text-wrap: nowrap;
     white-space: nowrap;

@@ -122,6 +122,60 @@ const Card = ({data,life}:Props) => {
     if(data.types.length % 3 != 0) {
       adjust_between = 3 - data.types.length % 3
     } 
+    const contentLength = data.content.length;
+
+  const slideSpeedClass =
+    contentLength > 90
+      ? styles.text_slide_slow_ad
+      : contentLength > 60
+      ? styles.text_slide_slow
+      : contentLength > 12
+      ? styles.text_slide
+      : ""
+  const baseClass = 'whitespace-nowrap text-nowrap';
+  function formatSlot(startDate: Date, endDate: Date): string {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  const month = pad(startDate.getMonth() + 1); // 月は0始まり
+  const day = pad(startDate.getDate());
+  const startHour = pad(startDate.getHours());
+  const startMinute = pad(startDate.getMinutes());
+  const endHour = pad(endDate.getHours());
+  const endMinute = pad(endDate.getMinutes());
+
+  return `${month}/${day} ${startHour}:${startMinute}~${endHour}:${endMinute}`;
+}
+  function getNearestUpcomingSlot(slots: string[]): string | null {
+    
+  const now = new Date();
+  try{
+    for (let i = 0; i < slots.length; i++) {
+    const slot = slots[i];
+    const [datePart, timePart] = slot.split(" ");
+    const [startTimeStr, endTimeStr] = timePart.split("~");
+
+    const [month, day] = datePart.split("/").map(Number);
+    const [startHour, startMinute] = startTimeStr.split(":").map(Number);
+    const [endHour, endMinute] = endTimeStr.split(":").map(Number);
+
+    const startDate = new Date(now.getFullYear(), month - 1, day, startHour, startMinute);
+    const endDate = new Date(now.getFullYear(), month - 1, day, endHour, endMinute);
+
+
+    if (now < endDate) {
+      console.log(slot)
+      return slot;
+    }
+  }
+  }catch(e){
+    console.log(e)
+    return null
+  }
+  
+  console.log("hello")
+  // すべて終了していた場合は null
+  return null;
+}
   return (
     <div className="relative  w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[85vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] 2xl:aspect-[16/9] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
         <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
@@ -204,13 +258,19 @@ const Card = ({data,life}:Props) => {
                       </div>
                       <div className="flex items-center gap-1">
                           <IoTimeOutline className="text-blue-500 text-3xl xl:text-4xl 2xl:text-5xl relative top-1" />
-                          <span className="text-3xl xl:text-4xl 2xl:text-5xl">
-                              {data.time.map((value,i)=>(
-                                  <span key={i} className='pl-1'>
-                                      {value}
-                                  </span>
-                              ))}
-                          </span>
+                          
+                              {data.time.length >=3 ? 
+                              <div className=" flex flex-nowrap text-3xl xl:text-4xl 2xl:text-5xl overflow-hidden max-w-xl lg:max-w-[400px] xl:max-w-[500px]">
+                                {getNearestUpcomingSlot(data.time)}
+                              </div>
+                              :<div>
+                                <div>
+                                  <div className="text-3xl xl:text-4xl 2xl:text-5xl">{data.time[0]}</div>
+                                  <div className="text-3xl xl:text-4xl 2xl:text-5xl">{data.time[1]}</div>
+                                </div>
+                              
+                              </div>
+                              }
                       </div>
                     </div>
                   </div>
