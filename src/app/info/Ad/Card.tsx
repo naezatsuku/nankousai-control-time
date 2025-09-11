@@ -5,6 +5,7 @@ import { MdOutlinePlace } from 'react-icons/md'
 import ClockArc from '../Circle/ClockArc'
 import Image from 'next/image';
 import { KaiseiDecol } from '@/fonts'
+import { ZenKakuGothic } from '@/fonts'
 import MiniClockArc from '../Circle/MiniClockArc'
 import styles from "./Ad.module.css"
 import QRGenerator from '../components/QRgenerateer'
@@ -53,32 +54,34 @@ const Card = ({data,life}:Props) => {
         {id:"h-3", name:"高校3年", color:"from-sky-400 via-blue-400 to-indigo-400" },
         {id:"other", name:"その他", color:"from-sky-600 to-sky-200"},
     ]
-    const rectRef = useRef<SVGRectElement>(null)
+    const rectRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
       const rect = rectRef.current
-      if (rect) {
-        rect.style.transition = 'none'
-        rect.style.strokeDashoffset = '496' // 初期化
+      // if (rect) {
+      //   rect.style.transition = 'none'
+      //   rect.style.strokeDashoffset = '496' 
     
-        requestAnimationFrame(() => {
-          rect.style.transition = `stroke-dashoffset ${life}s ease-out`
-          rect.style.strokeDashoffset = '0' // アニメーション開始
-        })
-      }
+      //   requestAnimationFrame(() => {
+      //     rect.style.transition = `stroke-dashoffset ${life}s ease-out`
+      //     rect.style.strokeDashoffset = '0'
+      //   })
+      // }
       if (rect) {
         rect.style.animation = 'none'
         rect.style.scale = '1' // 初期化
     
         requestAnimationFrame(() => {
-          rect.style.animation = `transition_bar ${life}s ease-out`
-          rect.style.scale = '0' // アニメーション開始
+          rect.style.animation = `transition_bar ${life}s `
         })
       }
     }, [data])
     const setTextColor = (e:string[],type:string) => {
         let result = ""
 
+      if(e.includes("クラス展示") || e.includes("部活動展示")){
+            result = " from-cyan-400 to-indigo-500 "
+        }
 
         if(e.includes("フード")) {
             result = " from-orange-400 via-orange-400 to-yellow-400"
@@ -105,12 +108,10 @@ const Card = ({data,life}:Props) => {
         }
 
         if(e.includes("PTA")) {
-            result = "  from-yellow-400 via-lime-400 to-green-400"
+            result = "  from-sky-600 to-cyan-400"
         }
 
-        if(e.includes("クラス展示") || e.includes("部活動展示")){
-            result = " from-blue-500 via-indigo-500 to-purple-500"
-        }
+        
 
         if(result == "") {
             result = " from-sky-600 to-sky-100 "
@@ -198,7 +199,6 @@ const Card = ({data,life}:Props) => {
             </defs>
 
             <rect
-              ref={rectRef}
               x="0.5"
               y="0.5"
               width="159"
@@ -375,21 +375,21 @@ const Card = ({data,life}:Props) => {
             <QRGenerator qr={`https://nankousai.vercel.app/event/introduction?name=${data.className}`}/>
       </div> */}
     </div>
-    <div className={`w-full h-full p-10  bg-orange-500  text-white relative`}>
-        <div className='absolute h-full right-8 top-0 py-10'>
-            <div className='bg-white h-full w-6 rounded-full overflow-hidden text-end'>
+    <div className={`w-full h-full p-10  ${setTextColor(data.types, "bg")}  text-white relative ${ZenKakuGothic.className}`}>
+        <div className='absolute h-full right-10 top-0 py-10'>
+            <div className='bg-white h-full w-8 rounded-full overflow-hidden text-end'>
               <style> 
                 {`@keyframes transition_bar {
                     from {
-                        transform: scale(0) ;
+                        height:0%
                     }
 
                     to {
-                        transform: scale(1);
+                        height: 100%;
                     }
                 }`}
               </style>
-              <div   className='h-full w-full rounded-full from-fuchsia-300 to-cyan-300 bg-gradient-to-b '></div>
+              <div  ref={rectRef} className='h-auto w-full rounded-full from-fuchsia-300 to-cyan-300 bg-gradient-to-b '></div>
             </div>
         </div>
         <div  className='w-full h-full flex justify-center m-auto'>
@@ -401,13 +401,13 @@ const Card = ({data,life}:Props) => {
               
               <div className='flex w-full justify-between text-lg'>
                 <div className='w-[16vw] flex flex-col items-center'>
-                  <p className='py-3'>rondo</p>
+                  <p className='py-3 text-2xl'>rondo</p>
                   {data.frontImg == "" ?
                   <Image src={"/1725741490270.jpg"} width={800} height={800} alt='rondoの写真' className='w-full aspect-square object-cover rounded-xl'></Image>
                 :  <Image src={data.frontImg} width={800} height={800} alt='rondoの写真' className='w-full aspect-square object-cover rounded-xl'></Image>}
                 </div>
                 <div className='w-[16vw] flex flex-col items-center'>
-                  <p className='py-3'>ClassPage</p>
+                  <p className='py-3 text-2xl'>クラスページ</p>
                   <div className='w-full hidden xl:block'>
                       <QRGenerator size={180} qr={`https://nankousai.vercel.app/event/introduction?name=${data.className}`}/>
                   </div>
@@ -430,8 +430,8 @@ const Card = ({data,life}:Props) => {
                           }
                   }`}
                 </style> 
-                <p className={`text-3xl ${KaiseiDecol.className} font-bold`}>{data.className}</p>
-                <div className={`flex text-6xl pt-5 pb-6 font-bold ${KaiseiDecol.className}`}>
+                <p className={`text-3xl  font-bold`}>{data.className}</p>
+                <div className={`flex text-6xl pt-5 pb-6 font-bold `}>
                   {data.title.length > 9 ? 
                     <>
                       <p  style={{animation: `text-slide ${4 / 12 * data.title.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap inline-block `}>{data.title}</p>
@@ -441,12 +441,14 @@ const Card = ({data,life}:Props) => {
                     :<p className=' text-nowrap whitespace-nowrap'>{data.title}</p>
                     }
                 </div>
-                <p className={`text-3xl ${KaiseiDecol.className} font-bold`}>{data.tagline}</p>
-                <p className={`text-2xl pt-5 ${KaiseiDecol.className} `}>{data.content}</p>
+                <div className='bg-white rounded-full inline-block mt-3'>
+                    <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-8`}>{data.tagline}</p>
+                </div>    
+                <p className={`text-2xl pt-6  `}>{data.content}</p>
               </div>  
               <div className='flex justify-between w-full'>
                 <div className='flex flex-col items-center  w-[16vw]'>
-                  <p className='py-3'>待ち時間</p>
+                  <p className='py-3 text-2xl'>待ち時間</p>
                     {data.TimeVisible ? 
                       <div className="flex justify-center w-full items-center">
                         <div className='w-[90%] aspect-square hidden md:flex flex-col justify-center'>
@@ -465,11 +467,34 @@ const Card = ({data,life}:Props) => {
                     </div> 
                   }
                 </div>
-                <div className='w-[22vw] space-y-5 text-3xl h-full my-auto overflow-hidden '>
+                <div className='w-[22vw] space-y-8 text-3xl h-full my-auto overflow-hidden '>
                   <div className="flex items-center gap-1">
-                      <MdOutlinePlace className="text-white text-4xl relative top-1  mr-1" />
+                      <MdOutlinePlace className="text-white text-4xl 2xl:text-5xl relative top-1  mr-1 shrink-0" />
                       <div className='overflow-hidden'>
-                        <span className=" text-4xl text-nowrap whitespace-nowrap">{data.place}</span>
+                        <style>
+                          {`@keyframes text-slide {
+                                  from {
+                                      transform: translateX(0%);
+                                  }
+
+                                  to {
+                                      transform: translateX(-100%);
+                                  }
+                          }`}
+                        </style> 
+                        {data.place != null && 
+                        <span className='flex  text-4xl 2xl:text-5xl '>
+                          {data.place.length > 7 ? 
+                          <>
+                            <p  style={{animation: `text-slide ${4 / 12 * data.place.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap inline-block `}>{data.place}</p>
+                            <p  style={{animation: `text-slide ${4 / 12 * data.place.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap  inline-block 
+                            `}>{data.place}</p>
+                          </>
+                          :<p className=' text-nowrap whitespace-nowrap'>{data.place}</p>
+                          }
+                        </span>
+                        }
+                        
                       </div>
                   </div>
                   <div className="flex items-center gap-1">

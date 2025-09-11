@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState, useCallback } from 'react';
 import Card from './Card';
 import { BiChevronsLeft, BiChevronsRight } from 'react-icons/bi';
 import ScrollContainer from 'react-indiana-drag-scroll';
+import { ZenKakuGothic } from '@/fonts'
 
 type Event = {
   className: string;
@@ -176,8 +177,9 @@ const ShowCards = ({ eventRef, floorRef, index }: Props) => {
           <div className="fixed w-screen h-screen bg-black/40" />
         </>
       )} */}
-
-      <div className="fixed bottom-0 left-0 w-full z-50 opacity-10 transition-all hover:opacity-90">
+      <p className={`fixed bottom-5 text-center right-30 text-white text-xl opacity-70 ${ZenKakuGothic.className}`}>・・・タグを表示・・・</p>
+      {/* <p className={`fixed top-5 text-center right-30 text-white text-xl ${ZenKakuGothic.className}`}>Next Slide...</p> */}
+      <div className="fixed bottom-0 left-0 w-full z-50 opacity-0 transition-all hover:opacity-90">
         <div className="py-2 bg-gray-100">
           <ScrollContainer>
             <div className="flex my-3 items-center">
