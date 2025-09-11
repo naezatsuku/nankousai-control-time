@@ -162,12 +162,12 @@ const ShowCards = ({ eventRef, floorRef, index }: Props) => {
       </Suspense>
 
       <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50">
-        <button onClick={backIndex} className="p-3 bg-white rounded-full shadow hover:bg-gray-100 transition" aria-label="Back">
-          <BiChevronsLeft className="text-6xl text-blue-500" />
+        <button onClick={backIndex} className="p-3 cursor-pointer transition" aria-label="Back">
+          <BiChevronsLeft className="text-6xl text-white" />
                 </button>
       </div>
 
-      {currentCard?.backImg && (
+      {/* {currentCard?.backImg && (
         <>
           <div
             className="fixed w-screen h-screen bg-cover bg-center"
@@ -175,7 +175,7 @@ const ShowCards = ({ eventRef, floorRef, index }: Props) => {
           />
           <div className="fixed w-screen h-screen bg-black/40" />
         </>
-      )}
+      )} */}
 
       <div className="fixed bottom-0 left-0 w-full z-50 opacity-10 transition-all hover:opacity-90">
         <div className="py-2 bg-gray-100">
