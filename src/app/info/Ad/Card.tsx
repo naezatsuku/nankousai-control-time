@@ -418,7 +418,7 @@ const Card = ({data,life}:Props) => {
               </div>
             </div>
             <div className='w-[45%] '>
-              <div className='w-full  h-[50vh] overflow-hidden'>
+              <div className='w-full  h-[50vh] '>
                 <style>
                   {`@keyframes text-slide {
                           from {
@@ -431,7 +431,7 @@ const Card = ({data,life}:Props) => {
                   }`}
                 </style> 
                 <p className={`text-3xl  font-bold`}>{data.className}</p>
-                <div className={`flex text-6xl pt-5 pb-6 font-bold `}>
+                <div className={`flex text-6xl pt-5 pb-6 font-bold overflow-hidden`}>
                   {data.title.length > 9 ? 
                     <>
                       <p  style={{animation: `text-slide ${4 / 12 * data.title.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap inline-block `}>{data.title}</p>
@@ -441,10 +441,13 @@ const Card = ({data,life}:Props) => {
                     :<p className=' text-nowrap whitespace-nowrap'>{data.title}</p>
                     }
                 </div>
-                <div className='bg-white rounded-full inline-block mt-3'>
-                    <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-8`}>{data.tagline}</p>
+                <div className='bg-white rounded-full inline-block mt-5 relative -left-2 '>
+                    <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-6  `}>{data.tagline}</p>
+                </div>
+                <div className='py-7 text-2xl overflow-hidden'>
+                    <p className={` `}>{data.content}</p>
                 </div>    
-                <p className={`text-2xl pt-6  `}>{data.content}</p>
+                
               </div>  
               <div className='flex justify-between w-full'>
                 <div className='flex flex-col items-center  w-[16vw]'>
