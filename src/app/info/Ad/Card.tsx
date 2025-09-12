@@ -187,7 +187,7 @@ const Card = ({data,life}:Props) => {
 }
   return (
     <>
-      <div className="relative hidden w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[75vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] 2xl:aspect-[16/9] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
+      {/* <div className="relative hidden w-full max-w-[95vw] sm:max-w-[90vw] 2xl:max-w-[75vw] lg:max-w-[75vw] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[16/10] 2xl:aspect-[16/9] bg-white/30 backdrop-blur-md border-white/40 shadow-xl rounded-[50px] z-20 ">
         <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-50">
             <defs>
               <linearGradient id="rectStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -306,7 +306,7 @@ const Card = ({data,life}:Props) => {
                               }
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className='flex gap-4'>
                       {data.types.map((value,i)=>(
                           <div key={i}className={`py-3 px-2 min-w-40 bg-gradient-to-br ${
@@ -317,7 +317,7 @@ const Card = ({data,life}:Props) => {
                           </div>
                       ))}
                   </div> */}
-                  <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8 "> 
+                  {/* <div className="space-y-1 flex items-center flex-col 2xl:mt-12 xl:mt-8 "> 
                       <div className={`2xl:text-xl xl:text-lg opacity-60 text-gray-700 ` }>{data.tagline}</div>
                       <div className="flex max-w-xl lg:max-w-[400px] xl:max-w-[500px] 2xl:max-w-[600px] overflow-hidden  2xl:mt-1 2xl:text-4xl xl:text-4xl lg:text-3xl text-gray-900  font-light tracking-[-0.01rem]   leading-[160%] text-justify ">
                             <style> 
@@ -369,12 +369,12 @@ const Card = ({data,life}:Props) => {
               </div>
             </div>
             }
-        </div>
+        </div> */}
       {/* QRコード */}
       {/* <div className='fixed -bottom-0 -right-20 z-50 opacity-80'>
             <QRGenerator qr={`https://nankousai.vercel.app/event/introduction?name=${data.className}`}/>
       </div> */}
-    </div>
+    {/* </div> */}
     <div className={`w-full h-full p-10  ${setTextColor(data.types, "bg")}  text-white relative ${ZenKakuGothic.className}`}>
         <div className='absolute h-full right-10 top-0 py-10'>
             <div className='bg-white h-full w-8 rounded-full overflow-hidden text-end'>
@@ -418,8 +418,9 @@ const Card = ({data,life}:Props) => {
               </div>
             </div>
             <div className='w-[45%] '>
-              <div className='w-full  h-[50vh] '>
-                <style>
+              <div className='w-full  h-[50vh]  box-border pb-6'>
+                <div className='w-full h-full overflow-hidden'>
+                    <style>
                   {`@keyframes text-slide {
                           from {
                               transform: translateX(0%);
@@ -430,8 +431,8 @@ const Card = ({data,life}:Props) => {
                           }
                   }`}
                 </style> 
-                <p className={`text-3xl  font-bold`}>{data.className}</p>
-                <div className={`flex text-6xl pt-5 pb-6 font-bold overflow-hidden`}>
+                <p className={`text-3xl  font-bold ml-2`}>{data.className}</p>
+                <div className={`flex text-6xl pt-5 pb-4 font-bold ml-2`}>
                   {data.title.length > 9 ? 
                     <>
                       <p  style={{animation: `text-slide ${4 / 12 * data.title.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap inline-block `}>{data.title}</p>
@@ -441,12 +442,14 @@ const Card = ({data,life}:Props) => {
                     :<p className=' text-nowrap whitespace-nowrap'>{data.title}</p>
                     }
                 </div>
-                <div className='bg-white rounded-full inline-block mt-5 relative -left-2 '>
+                <div className='bg-white rounded-full inline-block mt-4 relative '>
                     <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-6  `}>{data.tagline}</p>
                 </div>
-                <div className='py-7 text-2xl overflow-hidden'>
+                <div className='py-5 text-2xl ml-2 '>
                     <p className={` `}>{data.content}</p>
-                </div>    
+                </div> 
+                </div>
+                   
                 
               </div>  
               <div className='flex justify-between w-full'>
