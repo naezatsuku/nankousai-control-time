@@ -18,6 +18,7 @@ type Event = {
   content: string;
   renewTime:string;
   TimeVisible:boolean;
+  Block:boolean;
 };
 
 type Floor = {
