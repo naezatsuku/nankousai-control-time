@@ -87,7 +87,7 @@ const Page = () => {
     if (!timeMap || !id) return
     setIsLoading(true)
     const pre = Number(timeMap.waitTime);
-    let now = Number(newTime)
+    const  now = Number(newTime)
     const time = new Date(); 
     const month = time.getMonth() + 1
     const date = time.getDate()

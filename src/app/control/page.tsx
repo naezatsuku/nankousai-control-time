@@ -9,7 +9,9 @@ type ClassInfo = {
   className: string
   id: number
   waitTime: number,
-  renewTime:string
+  renewTime:string,
+  Block:boolean
+  ticket:boolean
 }
 
 export default function Page() {
@@ -71,7 +73,7 @@ export default function Page() {
                 </p>
               </div>
               <div className="flex-shrink-0">
-                <MiniClockArc minutes={item.waitTime} />
+                <MiniClockArc minutes={item.waitTime} Block={item.Block} />
               </div>
             </div>
           </Link>
