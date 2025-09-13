@@ -193,11 +193,11 @@ const PageInner = ({classMap}:Props) => {
     ]
     const renderContent = (value:CircleData) => {
       if (value.ticket) {
-        return <div className="m-auto">整理券制です</div>;
+        return <div className="m-auto lg:text-3xl">整理券制です</div>;
       }
     
       if (value.Block) {
-        return <div className="m-auto">受付終了</div>;
+        return <div className="m-auto lg:text-3xl">受付終了</div>;
       }
     
       return <ClockArc minutes={value.waitTime} Block={value.Block} />;
@@ -207,7 +207,7 @@ const PageInner = ({classMap}:Props) => {
   return (
     <div className='user-select-none'>
     <div className="flex flex-col lg:flex-row w-full ">
-    <div className="relative w-full lg:w-[80%] ml-0  bg-white rounded shadow min-h-[calc(100vh-70px)] flex justify-center items-center ">
+    <div className="relative w-full lg:w-[100%] ml-0  bg-white rounded shadow min-h-[calc(100vh-70px)] flex justify-center items-center ">
         <div className="absolute  top-4 left-1/2 -translate-x-1/2 w-max text-center text-2xl lg:text-5xl">
             {display}の待ち時間
         </div>
@@ -224,7 +224,7 @@ const PageInner = ({classMap}:Props) => {
                     >
                       {showData?.map((value, i) => (
                         <div key={i} className="p-2 border rounded-2xl bg-white border-slate-200 drop-shadow-md">
-                          <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
+                          <div className="w-32 h-32 lg:w-60 lg:h-60 flex flex-col gap-1 justify-center">
                             {renderContent(value)}
                             <div className="text-center">{value.className}</div>
                             <div className="text-center">{value.renewTime}</div>
@@ -237,9 +237,9 @@ const PageInner = ({classMap}:Props) => {
                         <ScrollContainer className="flex overflow-y-auto h-[calc(100vh-160px)] w-full justify-center items-start pt-6 pb-24">
                             <div className="flex flex-wrap  justify-center">
                                 {showData?.map((value, i) => (
-                                  <div key={i} className="p-2 border m-2 rounded-2xl bg-white border-slate-200 drop-shadow-md h-auto">
-                                    <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1">
-                                      <ClockArc minutes={value.waitTime} Block={value.Block} />
+                                  <div key={i} className="p-2 border m-2  rounded-2xl bg-white border-slate-200 drop-shadow-md h-auto">
+                                    <div className="w-32 h-32 lg:w-60 lg:h-60 flex flex-col gap-1 justify-center">
+                                      {renderContent(value)}
                                       <div className="text-center">{value.className}</div>
                                       <div className="text-center">{value.renewTime}</div>
                                     </div>
