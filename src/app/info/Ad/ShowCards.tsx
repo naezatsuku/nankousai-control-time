@@ -19,6 +19,7 @@ type Event = {
   renewTime:string;
   TimeVisible:boolean;
   Block:boolean;
+  ticket:boolean;
 };
 
 type Floor = {
