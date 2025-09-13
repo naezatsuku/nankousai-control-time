@@ -78,13 +78,13 @@ const PageInner = ({classMap}:Props) => {
     useEffect(()=>{
       if(!class_location) return ;
       const indecation =(num:number)=>{
-        if(num < 100){
+        if(num < 30){
           return "すいている"
-        }else if(num<200){
+        }else if(num<60){
           return "やや混雑"
-        }else if(num<300){
+        }else if(num<90){
           return "混雑"
-        }else if(num<400){
+        }else if(num<120){
           return "渋滞"
         }else{
           return "激しい渋滞"

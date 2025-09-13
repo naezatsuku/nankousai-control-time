@@ -418,7 +418,7 @@ const Card = ({data,life}:Props) => {
               </div>
             </div>
             <div className='w-[45%] '>
-              <div className='w-full  h-[50vh]  box-border pb-6'>
+              <div className='w-full  h-[50vh] overflow-hidden pb-7'>
                 <div className='w-full h-full overflow-hidden'>
                     <style>
                   {`@keyframes text-slide {
@@ -431,8 +431,8 @@ const Card = ({data,life}:Props) => {
                           }
                   }`}
                 </style> 
-                <p className={`text-3xl  font-bold ml-2`}>{data.className}</p>
-                <div className={`flex text-6xl pt-5 pb-4 font-bold ml-2`}>
+                <p className={`text-3xl  font-bold`}>{data.className}</p>
+                <div className={`flex text-6xl pt-5 pb-6 font-bold overflow-hidden`}>
                   {data.title.length > 9 ? 
                     <>
                       <p  style={{animation: `text-slide ${4 / 12 * data.title.length}s infinite linear 0.1s both`}} className={`ml-4 whitespace-nowrap text-nowrap inline-block `}>{data.title}</p>
@@ -442,14 +442,11 @@ const Card = ({data,life}:Props) => {
                     :<p className=' text-nowrap whitespace-nowrap'>{data.title}</p>
                     }
                 </div>
-                <div className='bg-white rounded-full inline-block mt-4 relative '>
-                    <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-6  `}>{data.tagline}</p>
+                <div className='bg-white rounded-full inline-block mt-3'>
+                    <p className={`text-2xl   ${setTextColor(data.types, "text")} font-bold py-4 px-8`}>{data.tagline}</p>
+                </div>    
+                <p className={`text-2xl pt-6  `}>{data.content}</p>
                 </div>
-                <div className='py-5 text-2xl ml-2 '>
-                    <p className={` `}>{data.content}</p>
-                </div> 
-                </div>
-                   
                 
               </div>  
               <div className='flex justify-between w-full'>
