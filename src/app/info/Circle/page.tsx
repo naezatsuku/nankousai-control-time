@@ -50,7 +50,6 @@ const Page = () => {
       
       const tmp = data as classMap[];
       setClassMap(tmp);
-      console.log(tmp);
     }
     fetch();
     return () => {

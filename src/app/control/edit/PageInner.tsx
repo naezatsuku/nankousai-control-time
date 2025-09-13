@@ -12,7 +12,8 @@ type TimeMap = {
   className: string
   prevTime: string
   waitTime: string
-  renewTime:string
+  renewTime:string,
+  Block:  boolean
 }
 
 const Page = () => {
@@ -66,7 +67,7 @@ const Page = () => {
       return router.back();
     }
 
-    const { data: classes, error: contentError } = await supabase .from("contents") .select("id, className, prevTime, waitTime,renewTime") .eq("id", id);
+    const { data: classes, error: contentError } = await supabase .from("contents") .select("id, className, prevTime, waitTime,renewTime,Block") .eq("id", id);
 
     if (contentError || !classes?.length) {
       alert(contentError?.message || "データ取得失敗");
@@ -99,7 +100,8 @@ const Page = () => {
       .update({
         prevTime: pre,
         waitTime: now,
-        renewTime:mes
+        renewTime:mes,
+        Block:timeMap.Block
       })
       .eq("id", id)
 
@@ -112,7 +114,8 @@ const Page = () => {
         ...timeMap,
         prevTime: timeMap.waitTime,
         waitTime: newTime,
-        renewTime:mes
+        renewTime:mes,
+        Block:timeMap.Block
       })
     }
   }
@@ -166,6 +169,14 @@ const Page = () => {
         maxLength={3}
         className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
+      <input type="checkbox" checked={timeMap? timeMap.Block : false} onChange={(e) => {
+        if(!timeMap) return;
+        setTimeMap({
+          ...timeMap,
+          Block: e.target.checked
+        })
+      }}
+      />
         <button
           onClick={handleUpdate}
           disabled={isLoading}
@@ -180,7 +191,7 @@ const Page = () => {
         </button>
       </div>
       <div className="flex items-center justify-center">
-          <ClockArc minutes={Number(newTime)} />
+          <ClockArc minutes={Number(newTime)} Block={false} />
       </div>
       
         </div>
