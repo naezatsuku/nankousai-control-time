@@ -13,7 +13,8 @@ type TimeMap = {
   prevTime: string
   waitTime: string
   renewTime:string,
-  Block:  boolean
+  Block:  boolean,
+  ticket: boolean,
 }
 
 const Page = () => {
@@ -87,10 +88,6 @@ const Page = () => {
     setIsLoading(true)
     const pre = Number(timeMap.waitTime);
     let now = Number(newTime)
-    if(timeMap.Block == true){
-      now = 180
-      timeMap.waitTime = "180"
-    }
     const time = new Date(); 
     const month = time.getMonth() + 1
     const date = time.getDate()
@@ -105,7 +102,8 @@ const Page = () => {
         prevTime: pre,
         waitTime: now,
         renewTime:mes,
-        Block:timeMap.Block
+        Block:timeMap.Block,
+        ticket:timeMap.ticket,
       })
       .eq("id", id)
 
@@ -119,7 +117,8 @@ const Page = () => {
         prevTime: timeMap.waitTime,
         waitTime: newTime,
         renewTime:mes,
-        Block:timeMap.Block
+        Block:timeMap.Block,
+        ticket:timeMap.ticket
       })
     }
   }
@@ -175,11 +174,23 @@ const Page = () => {
       />
       <div className="flex items-center space-x-2 space-y-2">
         <div className="space-y-2 flex justify-center">受付終了</div>
-        <input type="checkbox" checked={timeMap? timeMap.Block : false} onChange={(e) => {
+        <input type="checkbox" checked={timeMap?.Block ? timeMap.Block : false} onChange={(e) => {
         if(!timeMap) return;
         setTimeMap({
           ...timeMap,
           Block: e.target.checked
+        })
+      }}
+      className="w-6 h-6 cursor-pointer"
+      />
+      </div>
+      <div className="flex items-center space-x-2 space-y-2">
+        <div className="space-y-2 flex justify-center">整理券制です</div>
+        <input type="checkbox" checked={timeMap?.ticket? timeMap.ticket : false} onChange={(e) => {
+        if(!timeMap) return;
+        setTimeMap({
+          ...timeMap,
+          ticket: e.target.checked
         })
       }}
       className="w-6 h-6 cursor-pointer"

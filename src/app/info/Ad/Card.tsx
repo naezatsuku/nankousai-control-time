@@ -24,6 +24,7 @@ type Event ={
     tagline:string,//キャッチコピー
     content:string,
     Block:boolean
+    ticket:boolean
 }
 type Props ={
     data:Event,
@@ -455,7 +456,16 @@ const Card = ({data,life}:Props) => {
                     {data.TimeVisible ? 
                       <div className="flex justify-center w-full items-center">
                         <div className='w-[90%] aspect-square hidden md:flex flex-col justify-center'>
-                          <ClockArc minutes={data.waitTime} Block={data.Block} />
+                          {data.ticket ? 
+                          <div className='text-center text-2xl mb-2'>整理券制です</div> :
+                           (data.Block ? <div className='text-center text-2xl mb-2'>受付終了</div> :
+                            <div>
+                              <ClockArc minutes={data.waitTime} Block={data.Block} />
+                              <div className='text-center text-2xl mb-2'>現在の待ち時間</div>
+                            </div>
+                            )
+                          }
+                          
                           <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
                         <div className=' aspect-square block md:hidden'>

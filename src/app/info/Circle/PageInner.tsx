@@ -12,6 +12,7 @@ type classMap = {
   renewTime:string,
   TimeVisible:boolean,
   Block:boolean,
+  ticket:boolean,
 }
 type Props = {
   classMap: classMap[];
@@ -22,6 +23,7 @@ type CircleData = {
     renewTime:string,
     TimeVisible:boolean,
     Block:boolean,
+    ticket:boolean,
 }
 type SelectClass ={
     id:number,
@@ -68,6 +70,7 @@ const PageInner = ({classMap}:Props) => {
                 renewTime:tar?.renewTime ?? "",
                 TimeVisible:tar?.TimeVisible ?? false,
                 Block:tar?.Block ?? false,
+                ticket:tar?.ticket ?? false,
                 }
         })
         
@@ -188,6 +191,18 @@ const PageInner = ({classMap}:Props) => {
       {title:"中学2年生",method:()=>{filerClassesByName("中学2年")},color:setScrollColor("2年")},
       {title:"中学3年生",method:()=>{filerClassesByName("中学3年")},color:setScrollColor("3年")},
     ]
+    const renderContent = (value:CircleData) => {
+      if (value.ticket) {
+        return <div className="m-auto">整理券制です</div>;
+      }
+    
+      if (value.Block) {
+        return <div className="m-auto">受付終了</div>;
+      }
+    
+      return <ClockArc minutes={value.waitTime} Block={value.Block} />;
+    };
+
 
   return (
     <div className='user-select-none'>
@@ -210,7 +225,7 @@ const PageInner = ({classMap}:Props) => {
                       {showData?.map((value, i) => (
                         <div key={i} className="p-2 border rounded-2xl bg-white border-slate-200 drop-shadow-md">
                           <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
-                            <ClockArc minutes={value.waitTime} Block = {value.Block}/>
+                            {renderContent(value)}
                             <div className="text-center">{value.className}</div>
                             <div className="text-center">{value.renewTime}</div>
                           </div>

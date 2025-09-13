@@ -16,26 +16,12 @@ type RawContent ={
     waitTime:number,
     TimeVisible:boolean,
     renewTime:string
-    Block:boolean
-}
-type Content = {
-    className:string,
-    title:string,
-    place:string,
-    time:string[],
-    comment:string,
-    backImg:string,
-    frontImg:string,
-    types:string[],
-    waitTime:number,
+    Block:boolean,
+    ticket:boolean,
 }
 type RawIntro ={
     className:string,
     title:string,
-    content:string,
-}
-type Intro = {
-    tagline:string,//キャッチコピー
     content:string,
 }
 type Event ={
@@ -53,6 +39,7 @@ type Event ={
     TimeVisible:boolean,
     renewTime:string,
     Block:boolean
+    ticket:boolean,
 }
 type Floor ={
     floors:string,
@@ -63,7 +50,7 @@ const PageInner = () => {
     const FloorRef = useRef<Floor[]>([]);
     const [index,setIndex] = useState(0)
     const fetchData  = async ()=>{
-    const {data:rawevents} = await supabase.from('contents').select(`className,comment,place,type,genre,waitTime,title,imageURL,imageVersion,imageBackURL,time,TimeVisible,renewTime` );
+    const {data:rawevents} = await supabase.from('contents').select(`className,comment,place,type,genre,waitTime,title,imageURL,imageVersion,imageBackURL,time,TimeVisible,renewTime,Block,ticket` );
     const {data:intro} = await supabase.from("introduction").select("className,title,content");
     const intros = intro as RawIntro[]
     const events = rawevents as RawContent[]
@@ -117,6 +104,7 @@ const PageInner = () => {
             TimeVisible:value.TimeVisible,
             renewTime:value.renewTime,
             Block:value.Block || false,
+            ticket:value.ticket || false,
         }
     })
     const sorted = CLASSDATA.sort((a,b)=> a.className.localeCompare(b.className))
@@ -194,6 +182,7 @@ const PageInner = () => {
                   tagline: EventRef.current[index].tagline,
                   content: EventRef.current[index].content,
                   Block:tmp.Block || false,
+                  ticket:tmp.ticket || false,
                 }
           
                 console.log(newData);
@@ -234,6 +223,7 @@ const PageInner = () => {
                         tagline: tagline,
                         content:content,
                         Block:EventRef.current[index].Block,
+                        ticket:EventRef.current[index].ticket,
                     }
                     console.log(newData);
                     console.log("更新しました")
