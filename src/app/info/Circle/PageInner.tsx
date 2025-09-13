@@ -212,6 +212,7 @@ const PageInner = ({classMap}:Props) => {
                           <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
                             <ClockArc minutes={value.waitTime} Block = {value.Block}/>
                             <div className="text-center">{value.className}</div>
+                            <div className="text-center">{value.renewTime}</div>
                           </div>
                         </div>
                       ))}

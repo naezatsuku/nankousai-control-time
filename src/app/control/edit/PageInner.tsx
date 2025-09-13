@@ -86,7 +86,11 @@ const Page = () => {
     if (!timeMap || !id) return
     setIsLoading(true)
     const pre = Number(timeMap.waitTime);
-    const now = Number(newTime)
+    let now = Number(newTime)
+    if(timeMap.Block == true){
+      now = 180
+      timeMap.waitTime = "180"
+    }
     const time = new Date(); 
     const month = time.getMonth() + 1
     const date = time.getDate()
@@ -147,7 +151,7 @@ const Page = () => {
           </span>
         </p>
       </div>
-      <div className="flex items-center space-x-3 mb-6">
+      <div className="flex items-center space-x-3 mb-6 flex-col">
       <input
         type="text"
         inputMode="numeric"
@@ -169,14 +173,18 @@ const Page = () => {
         maxLength={3}
         className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <input type="checkbox" checked={timeMap? timeMap.Block : false} onChange={(e) => {
+      <div className="flex items-center space-x-2 space-y-2">
+        <div className="space-y-2 flex justify-center">受付終了</div>
+        <input type="checkbox" checked={timeMap? timeMap.Block : false} onChange={(e) => {
         if(!timeMap) return;
         setTimeMap({
           ...timeMap,
           Block: e.target.checked
         })
       }}
+      className="w-6 h-6 cursor-pointer"
       />
+      </div>
         <button
           onClick={handleUpdate}
           disabled={isLoading}
@@ -191,7 +199,7 @@ const Page = () => {
         </button>
       </div>
       <div className="flex items-center justify-center">
-          <ClockArc minutes={Number(newTime)} Block={false} />
+          <ClockArc minutes={Number(newTime)} Block={timeMap? timeMap.Block : false} />
       </div>
       
         </div>

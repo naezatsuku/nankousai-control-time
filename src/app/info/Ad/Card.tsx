@@ -459,7 +459,7 @@ const Card = ({data,life}:Props) => {
                           <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
                         <div className=' aspect-square block md:hidden'>
-                          <MiniClockArc minutes={data.waitTime} />
+                          <MiniClockArc minutes={data.waitTime} Block={data.Block} />
                           <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
                     </div>:
