@@ -111,7 +111,7 @@ export default function AnimatedClockArc({ minutes }: { minutes: number }) {
             transform="rotate(-90 18 18)"
           />
         )}
-        <text x="18" y="20" textAnchor="middle" fontSize="6" fill="#FFF" >
+        <text x="18" y="20" textAnchor="middle" fontSize="6" fill="#000" >
           {minutes}分待ち
         </text>
       </svg>
