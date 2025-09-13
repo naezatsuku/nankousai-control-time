@@ -10,6 +10,7 @@ type classMap ={
   prevTime:number,
   renewTime:string;
   TimeVisible:boolean;
+  Block:boolean;
 }
 const Page = () => {
   const [classMap,setClassMap] = useState<classMap[]>();
@@ -31,7 +32,8 @@ const Page = () => {
           waitTime:tmp.waitTime as number ,
           prevTime:tmp.prevTime as number,
           renewTime:tmp.renewTime as string,
-          TimeVisible:tmp.TimeVisible as boolean
+          TimeVisible:tmp.TimeVisible as boolean,
+          Block:tmp.Block as boolean,
         }
         setClassMap((prev)=>{
           if(!prev) return prev
@@ -41,12 +43,14 @@ const Page = () => {
       .subscribe()
     
     const fetch = async ()=>{
-      const {data,error} = await supabase.from("contents").select("id,className,waitTime,prevTime,renewTime,TimeVisible");
+      const {data,error} = await supabase.from("contents").select("id,className,waitTime,prevTime,renewTime,TimeVisible,Block");
       if(!data?.[0] || error){
         return alert("error");
       }
+      
       const tmp = data as classMap[];
       setClassMap(tmp);
+      console.log(tmp);
     }
     fetch();
     return () => {

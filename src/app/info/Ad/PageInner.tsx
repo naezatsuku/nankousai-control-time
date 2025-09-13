@@ -16,6 +16,7 @@ type RawContent ={
     waitTime:number,
     TimeVisible:boolean,
     renewTime:string
+    Block:boolean
 }
 type Content = {
     className:string,
@@ -50,7 +51,8 @@ type Event ={
     tagline:string,//キャッチコピー
     content:string,
     TimeVisible:boolean,
-    renewTime:string
+    renewTime:string,
+    Block:boolean
 }
 type Floor ={
     floors:string,
@@ -113,7 +115,8 @@ const PageInner = () => {
             tagline:tagline,
             content:content,
             TimeVisible:value.TimeVisible,
-            renewTime:value.renewTime
+            renewTime:value.renewTime,
+            Block:value.Block || false,
         }
     })
     const sorted = CLASSDATA.sort((a,b)=> a.className.localeCompare(b.className))
@@ -190,6 +193,7 @@ const PageInner = () => {
                   renewTime:tmp.renewTime ?? "",
                   tagline: EventRef.current[index].tagline,
                   content: EventRef.current[index].content,
+                  Block:tmp.Block || false,
                 }
           
                 console.log(newData);
@@ -229,6 +233,7 @@ const PageInner = () => {
                         renewTime:EventRef.current[index].renewTime,
                         tagline: tagline,
                         content:content,
+                        Block:EventRef.current[index].Block,
                     }
                     console.log(newData);
                     console.log("更新しました")

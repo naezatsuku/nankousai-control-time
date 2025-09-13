@@ -10,7 +10,8 @@ type classMap = {
   waitTime:number,
   prevTime:number,
   renewTime:string,
-  TimeVisible:boolean
+  TimeVisible:boolean,
+  Block:boolean,
 }
 type Props = {
   classMap: classMap[];
@@ -19,7 +20,8 @@ type CircleData = {
     className:string,
     waitTime:number,
     renewTime:string,
-    TimeVisible:boolean
+    TimeVisible:boolean,
+    Block:boolean,
 }
 type SelectClass ={
     id:number,
@@ -36,7 +38,6 @@ type Congestion_info = {
   situation:string,
 }
 const PageInner = ({classMap}:Props) => {
-
     
     const [selectClasses,setSelectClasses] = useState<SelectClass[]>();//idを基準に集める;
     const [showData,setShowData] = useState<CircleData[]>();
@@ -50,7 +51,6 @@ const PageInner = ({classMap}:Props) => {
           return console.log(error);
         }
         const tar = floors[0].data as Class_location[];
-        console.log(tar)
         setClass_location(tar)
       }
       fetch()
@@ -66,11 +66,13 @@ const PageInner = ({classMap}:Props) => {
                 waitTime:tar?.waitTime || 0,
                 className:item.classNames,
                 renewTime:tar?.renewTime ?? "",
-                TimeVisible:tar?.TimeVisible ?? false
+                TimeVisible:tar?.TimeVisible ?? false,
+                Block:tar?.Block ?? false,
                 }
         })
-
-        const filteredData = newData.filter((item)=>item.TimeVisible == true)
+        
+        let filteredData = newData.filter((item)=>item.TimeVisible == true)
+        console.log(filteredData);
         setShowData(filteredData);
     },[selectClasses,classMap])
     useEffect(()=>{
@@ -208,7 +210,7 @@ const PageInner = ({classMap}:Props) => {
                       {showData?.map((value, i) => (
                         <div key={i} className="p-2 border rounded-2xl bg-white border-slate-200 drop-shadow-md">
                           <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
-                            <ClockArc minutes={value.waitTime} />
+                            <ClockArc minutes={value.waitTime} Block = {value.Block}/>
                             <div className="text-center">{value.className}</div>
                           </div>
                         </div>
@@ -221,12 +223,13 @@ const PageInner = ({classMap}:Props) => {
                                 {showData?.map((value, i) => (
                                   <div key={i} className="p-2 border m-2 rounded-2xl bg-white border-slate-200 drop-shadow-md h-auto">
                                     <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1">
-                                      <ClockArc minutes={value.waitTime} />
+                                      <ClockArc minutes={value.waitTime} Block={value.Block} />
                                       <div className="text-center">{value.className}</div>
                                       <div className="text-center">{value.renewTime}</div>
                                     </div>
                                   </div>
                                 ))}
+                                {}
                             </div>
                         </ScrollContainer>
                     </div>

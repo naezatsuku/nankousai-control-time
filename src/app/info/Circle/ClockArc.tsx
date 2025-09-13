@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 
-export default function AnimatedClockArc({ minutes }: { minutes: number }) {
+type Props = {
+  minutes: number;
+  Block:boolean;
+};
+export default function AnimatedClockArc({ minutes, Block }: Props) {
+
     const percent = Math.min(minutes / 60, 3);
     const fullRounds = Math.floor(percent);     
 
@@ -111,8 +116,8 @@ export default function AnimatedClockArc({ minutes }: { minutes: number }) {
             transform="rotate(-90 18 18)"
           />
         )}
-        <text x="18" y="20" textAnchor="middle" fontSize="6" fill="#FFF" >
-          {minutes}分待ち
+        <text x="18" y="20" textAnchor="middle" fontSize="6" fill="#000" >
+          {Block ? "受付終了" : `${minutes}分`}
         </text>
       </svg>
     );

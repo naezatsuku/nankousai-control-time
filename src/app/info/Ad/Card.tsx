@@ -23,7 +23,7 @@ type Event ={
     TimeVisible:boolean
     tagline:string,//キャッチコピー
     content:string,
-    
+    Block:boolean
 }
 type Props ={
     data:Event,
@@ -458,7 +458,7 @@ const Card = ({data,life}:Props) => {
                     {data.TimeVisible ? 
                       <div className="flex justify-center w-full items-center">
                         <div className='w-[90%] aspect-square hidden md:flex flex-col justify-center'>
-                          <ClockArc minutes={data.waitTime} />
+                          <ClockArc minutes={data.waitTime} Block={data.Block} />
                           <div className='flex justify-center text-2xl mt-2'>{data.renewTime || ""}</div>
                         </div>
                         <div className=' aspect-square block md:hidden'>
