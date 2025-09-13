@@ -224,7 +224,7 @@ const PageInner = ({classMap}:Props) => {
                     >
                       {showData?.map((value, i) => (
                         <div key={i} className="p-2 border rounded-2xl bg-white border-slate-200 drop-shadow-md">
-                          <div className="w-32 h-32 lg:w-52 lg:h-52 flex flex-col gap-1 justify-center">
+                          <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
                             {renderContent(value)}
                             <div className="text-center">{value.className}</div>
                             <div className="text-center">{value.renewTime}</div>
@@ -238,7 +238,7 @@ const PageInner = ({classMap}:Props) => {
                             <div className="flex flex-wrap  justify-center">
                                 {showData?.map((value, i) => (
                                   <div key={i} className="p-2 border m-2  rounded-2xl bg-white border-slate-200 drop-shadow-md h-auto">
-                                    <div className="w-32 h-32 lg:w-52 lg:h-52 flex flex-col gap-1 justify-center">
+                                    <div className="w-32 h-32 lg:w-48 lg:h-48 flex flex-col gap-1 justify-center">
                                       {renderContent(value)}
                                       <div className="text-center">{value.className}</div>
                                       <div className="text-center">{value.renewTime}</div>
