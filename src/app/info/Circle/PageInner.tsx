@@ -71,7 +71,7 @@ const PageInner = ({classMap}:Props) => {
                 }
         })
         
-        let filteredData = newData.filter((item)=>item.TimeVisible == true)
+        const filteredData = newData.filter((item)=>item.TimeVisible == true)
         console.log(filteredData);
         setShowData(filteredData);
     },[selectClasses,classMap])
